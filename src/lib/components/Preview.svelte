@@ -7,6 +7,9 @@
   import Banner from '../templates/Banner.svelte';
   import Timeline from '../templates/Timeline.svelte';
   import Minimal from '../templates/Minimal.svelte';
+  import Slate from '../templates/Slate.svelte';
+  import Corporate from '../templates/Corporate.svelte';
+  import Card from '../templates/Card.svelte';
 
   const templates = {
     modern: Modern,
@@ -15,7 +18,10 @@
     elegant: Elegant,
     banner: Banner,
     timeline: Timeline,
-    minimal: Minimal
+    minimal: Minimal,
+    slate: Slate,
+    corporate: Corporate,
+    card: Card
   };
   let Current = $derived(templates[$prefs.template] ?? Modern);
 
@@ -27,11 +33,16 @@
     mono: "'JetBrains Mono', 'Consolas', monospace"
   };
   // 'default' → let each template keep its own font-family fallback.
-  let fontVar = $derived(fontStacks[$prefs.font] ? `--cv-font:${fontStacks[$prefs.font]}` : '');
+  let fontVar = $derived(fontStacks[$prefs.font] ? `--cv-font:${fontStacks[$prefs.font]};` : '');
+
+  // Fit the A4 page (794px @ 96dpi) to the available column width.
+  const A4 = 794;
+  let paneW = $state(0);
+  let zoom = $derived(Math.min(0.85, Math.max(0.32, (paneW - 44) / A4)));
 </script>
 
-<div class="print-root">
-  <div class="scaler" style={fontVar}>
+<div class="print-root" bind:clientWidth={paneW}>
+  <div class="scaler" style="{fontVar}zoom:{zoom};">
     <Current data={$cv} accent={$prefs.accent} />
   </div>
 </div>
@@ -40,13 +51,10 @@
   .print-root {
     display: flex;
     justify-content: center;
-    padding: 28px;
+    padding: 22px;
   }
-  /* Scale the A4 page down to fit the preview column while keeping print at 100%. */
-  .scaler {
-    transform: scale(var(--scale, 0.62));
-    transform-origin: top center;
-  }
+  /* `zoom` (not transform) so the scaled page reflows layout — no reserved
+     whitespace and it stays centered at any width. Reset to 1 for print. */
   .scaler :global(.cv-page) {
     box-shadow: 0 8px 30px rgba(15, 23, 42, 0.18);
   }
@@ -55,7 +63,7 @@
       padding: 0;
     }
     .scaler {
-      transform: none !important;
+      zoom: 1 !important;
     }
   }
 </style>

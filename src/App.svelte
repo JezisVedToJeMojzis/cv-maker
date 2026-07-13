@@ -3,6 +3,9 @@
   import Preview from './lib/components/Preview.svelte';
   import { cv, prefs, loadSample, resetCV } from './lib/store.js';
 
+  // On phones we show one pane at a time (form OR preview).
+  let view = $state('edit');
+
   const templateOptions = [
     { id: 'modern', label: 'Modern' },
     { id: 'classic', label: 'Classic' },
@@ -10,7 +13,10 @@
     { id: 'elegant', label: 'Elegant' },
     { id: 'banner', label: 'Banner' },
     { id: 'timeline', label: 'Timeline' },
-    { id: 'minimal', label: 'Minimal' }
+    { id: 'minimal', label: 'Minimal' },
+    { id: 'slate', label: 'Slate' },
+    { id: 'corporate', label: 'Corporate' },
+    { id: 'card', label: 'Card' }
   ];
   // A few basic presets; the color picker covers everything else.
   const accents = ['#2563eb', '#0f766e', '#b5651d', '#6b7233', '#7b3f3f', '#0f172a'];
@@ -61,6 +67,11 @@
   <header class="toolbar">
     <div class="brand">📄 <strong>CV Maker</strong></div>
 
+    <div class="view-toggle">
+      <button class:active={view === 'edit'} onclick={() => (view = 'edit')}>✎ Edit</button>
+      <button class:active={view === 'preview'} onclick={() => (view = 'preview')}>◱ Preview</button>
+    </div>
+
     <div class="controls">
       <div class="seg">
         {#each templateOptions as t}
@@ -95,7 +106,7 @@
     </div>
   </header>
 
-  <main class="split">
+  <main class="split" class:show-edit={view === 'edit'} class:show-preview={view === 'preview'}>
     <div class="editor-pane"><Editor /></div>
     <div class="preview-pane"><Preview /></div>
   </main>
@@ -119,6 +130,25 @@
   }
   .brand {
     font-size: 16px;
+  }
+  /* Edit/Preview switch — only used on small screens. */
+  .view-toggle {
+    display: none;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .view-toggle button {
+    border: none;
+    background: #fff;
+    padding: 7px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--muted);
+  }
+  .view-toggle button.active {
+    background: var(--accent);
+    color: #fff;
   }
   .controls {
     display: flex;
@@ -227,12 +257,23 @@
     background: var(--bg);
   }
   @media (max-width: 820px) {
+    .view-toggle {
+      display: inline-flex;
+    }
     .split {
       grid-template-columns: 1fr;
     }
-    .editor-pane {
+    /* Show only the active pane on phones. */
+    .split .editor-pane,
+    .split .preview-pane {
+      display: none;
       border-right: none;
-      border-bottom: 1px solid var(--border);
+    }
+    .split.show-edit .editor-pane {
+      display: block;
+    }
+    .split.show-preview .preview-pane {
+      display: block;
     }
   }
 </style>

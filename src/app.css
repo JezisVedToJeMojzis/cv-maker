@@ -31,30 +31,51 @@ textarea {
   color: inherit;
 }
 
-/* ---- Print: only the CV page, at real A4 size, vector-crisp ---- */
+/* ---- Print: only the CV page, at real A4 size, vector-crisp ----
+   Hide-with-visibility (not display) so the nested .print-root stays
+   renderable regardless of which pane the phone layout is showing. */
 @media print {
   @page {
     size: A4;
     margin: 0;
   }
+  html,
   body {
     background: #fff;
   }
-  .app-shell,
-  .editor-pane,
-  .toolbar,
-  .preview-toolbar {
-    display: none !important;
+  body * {
+    visibility: hidden;
   }
   .print-root,
   .print-root * {
     visibility: visible;
   }
+  /* Ancestors must not be display:none, or the CV won't print on mobile. */
+  .app-shell {
+    display: block !important;
+    height: auto !important;
+  }
+  .split {
+    display: block !important;
+    overflow: visible !important;
+  }
+  .preview-pane {
+    display: block !important;
+    overflow: visible !important;
+  }
+  .toolbar,
+  .editor-pane {
+    display: none !important;
+  }
   .print-root {
     position: absolute;
-    inset: 0;
-    margin: 0;
-    box-shadow: none !important;
+    left: 0;
+    top: 0;
+    width: 100%;
+    padding: 0 !important;
+  }
+  .print-root .scaler {
+    zoom: 1 !important;
   }
   .cv-page {
     box-shadow: none !important;
