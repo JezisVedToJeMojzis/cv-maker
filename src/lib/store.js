@@ -25,84 +25,98 @@ export const emptyCV = () => ({
   interests: []
 });
 
+// Fictional demo persona — safe to show to anyone. Any resemblance to real
+// people is coincidental. Users replace this with their own data.
 export const sampleCV = () => ({
   basics: {
-    name: 'Samuel Mojzis',
-    title: 'Full-Stack Software Engineer',
-    email: 'mojzissamuel@gmail.com',
-    phone: '+421 900 000 000',
-    location: 'Bratislava, Slovakia',
-    website: 'github.com/JezisVedToJeMojzis',
+    name: 'Alex Rivera',
+    title: 'Product Designer',
+    email: 'alex.rivera@example.com',
+    phone: '+1 (555) 018-2937',
+    location: 'Amsterdam, Netherlands',
+    website: 'alexrivera.design',
     photo: '',
     summary:
-      'Engineer who ships end-to-end products — from Go/Postgres backends to Svelte PWAs. I like small, well-tested services and interfaces that feel obvious.'
+      'Product designer with 6+ years turning fuzzy problems into clean, usable interfaces. I care about accessibility, fast iteration, and shipping things people actually enjoy using.'
   },
   experience: [
     {
       id: crypto.randomUUID(),
-      role: 'Software Engineer',
-      company: 'Freelance / Side Projects',
-      location: 'Remote',
-      start: '2023',
+      role: 'Senior Product Designer',
+      company: 'Northwind Labs',
+      location: 'Amsterdam',
+      start: '2021',
       end: 'Present',
       bullets: [
-        'Built and deployed multiple PWAs (mapping, trip planning, bike tracking) using SvelteKit and Postgres.',
-        'Designed REST APIs in Go with migration-driven schemas and per-resource authorization.',
-        'Shipped to free-tier hosting (Render + Neon) with CI-friendly, idempotent migrations.'
+        'Led the redesign of the core dashboard, lifting task-completion rate by 34%.',
+        'Built and maintained the design system used across 5 product teams.',
+        'Ran weekly usability tests and turned findings into shipped improvements.'
+      ]
+    },
+    {
+      id: crypto.randomUUID(),
+      role: 'Product Designer',
+      company: 'Bright Studio',
+      location: 'Berlin',
+      start: '2018',
+      end: '2021',
+      bullets: [
+        'Designed mobile-first flows for fintech and health clients from concept to launch.',
+        'Partnered with engineers to ship pixel-accurate, accessible UI.'
       ]
     }
   ],
   education: [
     {
       id: crypto.randomUUID(),
-      degree: 'B.Sc. Computer Science',
-      school: 'University',
+      degree: 'B.A. Interaction Design',
+      school: 'Delft University of Technology',
       location: '',
-      start: '2019',
-      end: '2022',
-      note: ''
+      start: '2014',
+      end: '2018',
+      note: 'Graduated with honours'
     }
   ],
-  skills: ['Go', 'TypeScript', 'Svelte / SvelteKit', 'PostgreSQL', 'Docker', 'REST APIs'],
+  skills: ['Figma', 'Design Systems', 'Prototyping', 'User Research', 'HTML/CSS', 'Accessibility'],
   projects: [
     {
       id: crypto.randomUUID(),
-      name: 'Nut Cracker',
-      link: 'nutcracker.onrender.com',
-      description: 'A PWA to color a world map of countries you have connected with. Go + Svelte + Postgres.'
+      name: 'Aurora Design Kit',
+      link: 'alexrivera.design/aurora',
+      description: 'An open-source Figma UI kit with 200+ accessible components. 4k+ downloads.'
     }
   ],
   certifications: [
-    { id: crypto.randomUUID(), name: 'AWS Certified Cloud Practitioner', issuer: 'Amazon Web Services', year: '2024' }
+    { id: crypto.randomUUID(), name: 'Certified Professional in Accessibility (CPACC)', issuer: 'IAAP', year: '2023' }
   ],
   volunteering: [
     {
       id: crypto.randomUUID(),
-      role: 'Coding Mentor',
-      org: 'Local Code Club',
-      start: '2022',
+      role: 'Design Mentor',
+      org: 'ADPList',
+      start: '2020',
       end: 'Present',
-      description: 'Teach teenagers the basics of web development on weekends.'
+      description: 'Mentor early-career designers with portfolio reviews and career advice.'
     }
   ],
   publications: [
     {
       id: crypto.randomUUID(),
-      title: 'Building Offline-First PWAs with SvelteKit',
-      venue: 'Personal Blog',
-      year: '2025',
+      title: 'Designing for Everyone: A Practical Accessibility Guide',
+      venue: 'Smashing Magazine',
+      year: '2024',
       link: ''
     }
   ],
   languages: [
-    { id: crypto.randomUUID(), name: 'Slovak', level: 'Native' },
-    { id: crypto.randomUUID(), name: 'English', level: 'Fluent (C1)' },
-    { id: crypto.randomUUID(), name: 'German', level: 'Intermediate (B1)' }
+    { id: crypto.randomUUID(), name: 'English', level: 'Native' },
+    { id: crypto.randomUUID(), name: 'Dutch', level: 'Fluent (C1)' },
+    { id: crypto.randomUUID(), name: 'Spanish', level: 'Conversational (B1)' }
   ],
   awards: [
-    { id: crypto.randomUUID(), name: 'Hackathon Winner', issuer: 'DevFest', year: '2023' }
+    { id: crypto.randomUUID(), name: 'Awwwards Site of the Day', issuer: 'Awwwards', year: '2022' }
   ],
-  interests: ['Calisthenics', 'Cycling', 'Cartography', 'Chess']
+  interests: ['Photography', 'Trail running', 'Ceramics', 'Typography']
 });
 
 function load() {
