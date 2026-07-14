@@ -1,7 +1,77 @@
 <script>
-  let { data, accent } = $props();
+  let { data, accent, order = [] } = $props();
   const dates = (a, b) => `${a || ''}${a && b ? ' – ' : ''}${b || ''}`;
 </script>
+
+{#snippet sec(key)}
+  {#if key === 'experience' && data.experience.length}
+    <div class="block"><div class="label">Experience</div>
+      <div class="content">
+        {#each data.experience as x}
+          <div class="entry">
+            <div class="row"><strong>{x.role}</strong><span class="dates">{dates(x.start, x.end)}</span></div>
+            <div class="sub">{[x.company, x.location, x.mode].filter(Boolean).join(' · ')}</div>
+            <ul>{#each x.bullets.filter(Boolean) as b}<li>{b}</li>{/each}</ul>
+          </div>
+        {/each}
+      </div>
+    </div>
+  {:else if key === 'education' && data.education.length}
+    <div class="block"><div class="label">Education</div>
+      <div class="content">
+        {#each data.education as e}
+          <div class="entry"><div class="row"><strong>{e.degree}</strong><span class="dates">{dates(e.start, e.end)}</span></div><div class="sub">{e.school}{e.note ? ' · ' + e.note : ''}</div></div>
+        {/each}
+      </div>
+    </div>
+  {:else if key === 'projects' && data.projects.length}
+    <div class="block"><div class="label">Projects</div>
+      <div class="content">
+        {#each data.projects as p}
+          <div class="entry"><div class="row"><strong>{p.name}</strong>{#if p.link}<span class="dates">{p.link}</span>{/if}</div><div class="sub">{p.description}</div></div>
+        {/each}
+      </div>
+    </div>
+  {:else if key === 'volunteering' && data.volunteering.length}
+    <div class="block"><div class="label">Volunteering</div>
+      <div class="content">
+        {#each data.volunteering as v}
+          <div class="entry"><div class="row"><strong>{v.role}</strong><span class="dates">{dates(v.start, v.end)}</span></div><div class="sub">{v.org}{v.description ? ' — ' + v.description : ''}</div></div>
+        {/each}
+      </div>
+    </div>
+  {:else if key === 'publications' && data.publications.length}
+    <div class="block"><div class="label">Publications</div>
+      <div class="content">
+        {#each data.publications as p}
+          <div class="entry"><div class="row"><strong>{p.title}</strong><span class="dates">{p.year}</span></div><div class="sub">{p.venue}{p.link ? ' · ' + p.link : ''}</div></div>
+        {/each}
+      </div>
+    </div>
+  {:else if key === 'certifications' && data.certifications.length}
+    <div class="block"><div class="label">Certifications</div>
+      <div class="content">
+        {#each data.certifications as c}
+          <div class="entry"><div class="row"><strong>{c.name}</strong><span class="dates">{c.year}</span></div><div class="sub">{c.issuer}</div></div>
+        {/each}
+      </div>
+    </div>
+  {:else if key === 'awards' && data.awards.length}
+    <div class="block"><div class="label">Awards</div>
+      <div class="content">
+        {#each data.awards as a}
+          <div class="entry"><div class="row"><strong>{a.name}</strong><span class="dates">{a.year}</span></div>{#if a.issuer}<div class="sub">{a.issuer}</div>{/if}</div>
+        {/each}
+      </div>
+    </div>
+  {:else if key === 'skills' && data.skills.length}
+    <div class="block"><div class="label">Skills</div><div class="content"><p class="inline">{data.skills.join('  ·  ')}</p></div></div>
+  {:else if key === 'languages' && data.languages.length}
+    <div class="block"><div class="label">Languages</div><div class="content"><p class="inline">{data.languages.map((l) => (l.level ? `${l.name} (${l.level})` : l.name)).join('  ·  ')}</p></div></div>
+  {:else if key === 'interests' && data.interests.length}
+    <div class="block"><div class="label">Interests</div><div class="content"><p class="inline">{data.interests.join('  ·  ')}</p></div></div>
+  {/if}
+{/snippet}
 
 <div class="cv-page corporate" style="--a:{accent}">
   <header>
@@ -22,89 +92,7 @@
     <div class="block"><div class="label">Profile</div><div class="content"><p class="summary">{data.basics.summary}</p></div></div>
   {/if}
 
-  {#if data.experience.length}
-    <div class="block"><div class="label">Experience</div>
-      <div class="content">
-        {#each data.experience as x}
-          <div class="entry">
-            <div class="row"><strong>{x.role}</strong><span class="dates">{dates(x.start, x.end)}</span></div>
-            <div class="sub">{[x.company, x.location, x.mode].filter(Boolean).join(' · ')}</div>
-            <ul>{#each x.bullets.filter(Boolean) as b}<li>{b}</li>{/each}</ul>
-          </div>
-        {/each}
-      </div>
-    </div>
-  {/if}
-
-  {#if data.education.length}
-    <div class="block"><div class="label">Education</div>
-      <div class="content">
-        {#each data.education as e}
-          <div class="entry"><div class="row"><strong>{e.degree}</strong><span class="dates">{dates(e.start, e.end)}</span></div><div class="sub">{e.school}{e.note ? ' · ' + e.note : ''}</div></div>
-        {/each}
-      </div>
-    </div>
-  {/if}
-
-  {#if data.projects.length}
-    <div class="block"><div class="label">Projects</div>
-      <div class="content">
-        {#each data.projects as p}
-          <div class="entry"><div class="row"><strong>{p.name}</strong>{#if p.link}<span class="dates">{p.link}</span>{/if}</div><div class="sub">{p.description}</div></div>
-        {/each}
-      </div>
-    </div>
-  {/if}
-
-  {#if data.volunteering.length}
-    <div class="block"><div class="label">Volunteering</div>
-      <div class="content">
-        {#each data.volunteering as v}
-          <div class="entry"><div class="row"><strong>{v.role}</strong><span class="dates">{dates(v.start, v.end)}</span></div><div class="sub">{v.org}{v.description ? ' — ' + v.description : ''}</div></div>
-        {/each}
-      </div>
-    </div>
-  {/if}
-
-  {#if data.publications.length}
-    <div class="block"><div class="label">Publications</div>
-      <div class="content">
-        {#each data.publications as p}
-          <div class="entry"><div class="row"><strong>{p.title}</strong><span class="dates">{p.year}</span></div><div class="sub">{p.venue}{p.link ? ' · ' + p.link : ''}</div></div>
-        {/each}
-      </div>
-    </div>
-  {/if}
-
-  {#if data.certifications.length}
-    <div class="block"><div class="label">Certifications</div>
-      <div class="content">
-        {#each data.certifications as c}
-          <div class="entry"><div class="row"><strong>{c.name}</strong><span class="dates">{c.year}</span></div><div class="sub">{c.issuer}</div></div>
-        {/each}
-      </div>
-    </div>
-  {/if}
-
-  {#if data.awards.length}
-    <div class="block"><div class="label">Awards</div>
-      <div class="content">
-        {#each data.awards as a}
-          <div class="entry"><div class="row"><strong>{a.name}</strong><span class="dates">{a.year}</span></div>{#if a.issuer}<div class="sub">{a.issuer}</div>{/if}</div>
-        {/each}
-      </div>
-    </div>
-  {/if}
-
-  {#if data.skills.length}
-    <div class="block"><div class="label">Skills</div><div class="content"><p class="inline">{data.skills.join('  ·  ')}</p></div></div>
-  {/if}
-  {#if data.languages.length}
-    <div class="block"><div class="label">Languages</div><div class="content"><p class="inline">{data.languages.map((l) => l.level ? `${l.name} (${l.level})` : l.name).join('  ·  ')}</p></div></div>
-  {/if}
-  {#if data.interests.length}
-    <div class="block"><div class="label">Interests</div><div class="content"><p class="inline">{data.interests.join('  ·  ')}</p></div></div>
-  {/if}
+  {#each order as key (key)}{@render sec(key)}{/each}
 </div>
 
 <style>

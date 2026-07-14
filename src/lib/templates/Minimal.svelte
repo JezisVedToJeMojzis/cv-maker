@@ -1,7 +1,62 @@
 <script>
-  let { data, accent } = $props();
+  let { data, accent, order = [] } = $props();
   const dates = (a, b) => `${a || ''}${a && b ? ' – ' : ''}${b || ''}`;
 </script>
+
+{#snippet sec(key)}
+  {#if key === 'experience' && data.experience.length}
+    <section><h2>Experience</h2>
+      {#each data.experience as x}
+        <div class="entry">
+          <div class="row"><strong>{x.role}</strong> <span class="at">{[x.company, x.location, x.mode].filter(Boolean).join(' · ')}</span><span class="dates">{dates(x.start, x.end)}</span></div>
+          <ul>{#each x.bullets.filter(Boolean) as b}<li>{b}</li>{/each}</ul>
+        </div>
+      {/each}
+    </section>
+  {:else if key === 'projects' && data.projects.length}
+    <section><h2>Projects</h2>
+      {#each data.projects as p}
+        <div class="entry"><div class="row"><strong>{p.name}</strong>{#if p.link}<span class="at">{p.link}</span>{/if}</div><p class="p">{p.description}</p></div>
+      {/each}
+    </section>
+  {:else if key === 'volunteering' && data.volunteering.length}
+    <section><h2>Volunteering</h2>
+      {#each data.volunteering as v}
+        <div class="entry"><div class="row"><strong>{v.role}</strong> <span class="at">{v.org}</span><span class="dates">{dates(v.start, v.end)}</span></div>{#if v.description}<p class="p">{v.description}</p>{/if}</div>
+      {/each}
+    </section>
+  {:else if key === 'publications' && data.publications.length}
+    <section><h2>Publications</h2>
+      {#each data.publications as p}
+        <div class="entry"><div class="row"><strong>{p.title}</strong><span class="dates">{p.year}</span></div><p class="p">{p.venue}{p.link ? ' · ' + p.link : ''}</p></div>
+      {/each}
+    </section>
+  {:else if key === 'education' && data.education.length}
+    <section><h2>Education</h2>
+      {#each data.education as e}
+        <div class="entry"><div class="row"><strong>{e.degree}</strong> <span class="at">{e.school}{e.note ? ' · ' + e.note : ''}</span><span class="dates">{dates(e.start, e.end)}</span></div></div>
+      {/each}
+    </section>
+  {:else if key === 'certifications' && data.certifications.length}
+    <section><h2>Certifications</h2>
+      {#each data.certifications as c}
+        <div class="entry"><div class="row"><strong>{c.name}</strong> <span class="at">{c.issuer}</span><span class="dates">{c.year}</span></div></div>
+      {/each}
+    </section>
+  {:else if key === 'awards' && data.awards.length}
+    <section><h2>Awards</h2>
+      {#each data.awards as a}
+        <div class="entry"><div class="row"><strong>{a.name}</strong> <span class="at">{a.issuer}</span><span class="dates">{a.year}</span></div></div>
+      {/each}
+    </section>
+  {:else if key === 'skills' && data.skills.length}
+    <section><h2>Skills</h2><p class="p">{data.skills.join(' · ')}</p></section>
+  {:else if key === 'languages' && data.languages.length}
+    <section><h2>Languages</h2><p class="p">{data.languages.map((l) => (l.level ? `${l.name} (${l.level})` : l.name)).join(' · ')}</p></section>
+  {:else if key === 'interests' && data.interests.length}
+    <section><h2>Interests</h2><p class="p">{data.interests.join(' · ')}</p></section>
+  {/if}
+{/snippet}
 
 <div class="cv-page minimal" style="--a:{accent}">
   <header>
@@ -20,68 +75,7 @@
 
   {#if data.basics.summary}<p class="summary">{data.basics.summary}</p>{/if}
 
-  {#if data.experience.length}
-    <section><h2>Experience</h2>
-      {#each data.experience as x}
-        <div class="entry">
-          <div class="row"><strong>{x.role}</strong> <span class="at">{[x.company, x.location, x.mode].filter(Boolean).join(' · ')}</span><span class="dates">{dates(x.start, x.end)}</span></div>
-          <ul>{#each x.bullets.filter(Boolean) as b}<li>{b}</li>{/each}</ul>
-        </div>
-      {/each}
-    </section>
-  {/if}
-
-  {#if data.projects.length}
-    <section><h2>Projects</h2>
-      {#each data.projects as p}
-        <div class="entry"><div class="row"><strong>{p.name}</strong>{#if p.link}<span class="at">{p.link}</span>{/if}</div><p class="p">{p.description}</p></div>
-      {/each}
-    </section>
-  {/if}
-
-  {#if data.volunteering.length}
-    <section><h2>Volunteering</h2>
-      {#each data.volunteering as v}
-        <div class="entry"><div class="row"><strong>{v.role}</strong> <span class="at">{v.org}</span><span class="dates">{dates(v.start, v.end)}</span></div>{#if v.description}<p class="p">{v.description}</p>{/if}</div>
-      {/each}
-    </section>
-  {/if}
-
-  {#if data.publications.length}
-    <section><h2>Publications</h2>
-      {#each data.publications as p}
-        <div class="entry"><div class="row"><strong>{p.title}</strong><span class="dates">{p.year}</span></div><p class="p">{p.venue}{p.link ? ' · ' + p.link : ''}</p></div>
-      {/each}
-    </section>
-  {/if}
-
-  {#if data.education.length}
-    <section><h2>Education</h2>
-      {#each data.education as e}
-        <div class="entry"><div class="row"><strong>{e.degree}</strong> <span class="at">{e.school}{e.note ? ' · ' + e.note : ''}</span><span class="dates">{dates(e.start, e.end)}</span></div></div>
-      {/each}
-    </section>
-  {/if}
-
-  {#if data.certifications.length}
-    <section><h2>Certifications</h2>
-      {#each data.certifications as c}
-        <div class="entry"><div class="row"><strong>{c.name}</strong> <span class="at">{c.issuer}</span><span class="dates">{c.year}</span></div></div>
-      {/each}
-    </section>
-  {/if}
-
-  {#if data.awards.length}
-    <section><h2>Awards</h2>
-      {#each data.awards as a}
-        <div class="entry"><div class="row"><strong>{a.name}</strong> <span class="at">{a.issuer}</span><span class="dates">{a.year}</span></div></div>
-      {/each}
-    </section>
-  {/if}
-
-  {#if data.skills.length}<section><h2>Skills</h2><p class="p">{data.skills.join(' · ')}</p></section>{/if}
-  {#if data.languages.length}<section><h2>Languages</h2><p class="p">{data.languages.map((l) => l.level ? `${l.name} (${l.level})` : l.name).join(' · ')}</p></section>{/if}
-  {#if data.interests.length}<section><h2>Interests</h2><p class="p">{data.interests.join(' · ')}</p></section>{/if}
+  {#each order as key (key)}{@render sec(key)}{/each}
 </div>
 
 <style>

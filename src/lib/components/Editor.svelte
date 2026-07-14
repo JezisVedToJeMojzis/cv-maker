@@ -1,5 +1,36 @@
 <script>
-  import { cv } from '../store.js';
+  import { cv, prefs, SECTIONS } from '../store.js';
+
+  const labelOf = (k) => SECTIONS.find((s) => s.key === k)?.label ?? k;
+
+  // ---- Whole-section reordering (drives how sections appear on the CV) ----
+  let secDrag = $state(-1);
+  let secOver = $state(-1);
+  function moveSection(from, to) {
+    const arr = $prefs.sectionOrder;
+    if (to < 0 || to >= arr.length || from === to) return;
+    const next = [...arr];
+    const [item] = next.splice(from, 1);
+    next.splice(to, 0, item);
+    $prefs.sectionOrder = next;
+  }
+  function secDragStart(e, i) {
+    secDrag = i;
+    e.dataTransfer.effectAllowed = 'move';
+  }
+  function secDragOver(e, i) {
+    e.preventDefault();
+    secOver = i;
+  }
+  function secDrop(i) {
+    if (secDrag > -1) moveSection(secDrag, i);
+    secDrag = -1;
+    secOver = -1;
+  }
+  function secDragEnd() {
+    secDrag = -1;
+    secOver = -1;
+  }
 
   // ---- Reordering: drag handle (desktop) + ↑/↓ buttons (works on touch too) ----
   let dragKey = $state('');
@@ -164,6 +195,36 @@
 {/snippet}
 
 <div class="editor">
+  <details class="order-panel">
+    <summary><h3>Section order</h3><span class="chev">▾</span></summary>
+    <p class="hint">Drag ⠿ or use ↑ ↓ to change the order sections appear on your CV.</p>
+    <ul class="order-list">
+      {#each $prefs.sectionOrder as key, i (key)}
+        <li
+          class="order-row"
+          class:drop-target={secOver === i && secDrag > -1}
+          ondragover={(e) => secDragOver(e, i)}
+          ondrop={() => secDrop(i)}
+          role="listitem"
+        >
+          <span
+            class="grip"
+            draggable="true"
+            title="Drag to reorder"
+            ondragstart={(e) => secDragStart(e, i)}
+            ondragend={secDragEnd}
+            role="button"
+            tabindex="-1"
+            aria-label="Drag to reorder"
+          >⠿</span>
+          <span class="order-label">{labelOf(key)}</span>
+          <button class="mv" disabled={i === 0} onclick={() => moveSection(i, i - 1)} aria-label="Move up">↑</button>
+          <button class="mv" disabled={i === $prefs.sectionOrder.length - 1} onclick={() => moveSection(i, i + 1)} aria-label="Move down">↓</button>
+        </li>
+      {/each}
+    </ul>
+  </details>
+
   <section>
     <h3>Basics</h3>
     <div class="photo-row">
@@ -548,5 +609,60 @@
   .ghost-btn:hover {
     color: #ef4444;
     border-color: #ef4444;
+  }
+  .order-panel {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: #fbfcfe;
+    padding: 4px 14px 12px;
+  }
+  .order-panel summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    list-style: none;
+    padding: 8px 0;
+  }
+  .order-panel summary::-webkit-details-marker {
+    display: none;
+  }
+  .chev {
+    color: var(--muted);
+    transition: transform 0.15s;
+  }
+  .order-panel[open] .chev {
+    transform: rotate(180deg);
+  }
+  .hint {
+    margin: 0 0 10px;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .order-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .order-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: #fff;
+    padding: 6px 8px;
+  }
+  .order-row.drop-target {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent);
+  }
+  .order-label {
+    flex: 1;
+    font-size: 13px;
+    color: var(--text);
   }
 </style>

@@ -143,14 +143,38 @@ cv.subscribe((value) => {
   }
 });
 
+// Reorderable content sections (summary/basics stay fixed at the top).
+export const SECTIONS = [
+  { key: 'experience', label: 'Experience' },
+  { key: 'education', label: 'Education' },
+  { key: 'projects', label: 'Projects' },
+  { key: 'volunteering', label: 'Volunteering' },
+  { key: 'publications', label: 'Publications' },
+  { key: 'certifications', label: 'Certifications' },
+  { key: 'awards', label: 'Awards' },
+  { key: 'skills', label: 'Skills' },
+  { key: 'languages', label: 'Languages' },
+  { key: 'interests', label: 'Interests' }
+];
+export const defaultOrder = SECTIONS.map((s) => s.key);
+
+// Keep the user's order, drop unknown keys, append any newly-added sections.
+function normalizeOrder(order) {
+  const arr = Array.isArray(order) ? order.filter((k) => defaultOrder.includes(k)) : [];
+  return [...new Set([...arr, ...defaultOrder])];
+}
+
 // UI preferences (template + accent) persisted separately.
 const PREF_KEY = 'cv-maker:prefs:v1';
 function loadPrefs() {
-  if (typeof localStorage === 'undefined') return { template: 'modern', accent: '#2563eb', font: 'default' };
+  const base = { template: 'modern', accent: '#2563eb', font: 'default', sectionOrder: [...defaultOrder] };
+  if (typeof localStorage === 'undefined') return base;
   try {
-    return { template: 'modern', accent: '#2563eb', ...JSON.parse(localStorage.getItem(PREF_KEY) || '{}') };
+    const merged = { ...base, ...JSON.parse(localStorage.getItem(PREF_KEY) || '{}') };
+    merged.sectionOrder = normalizeOrder(merged.sectionOrder);
+    return merged;
   } catch {
-    return { template: 'modern', accent: '#2563eb', font: 'default' };
+    return base;
   }
 }
 export const prefs = writable(loadPrefs());

@@ -43,7 +43,7 @@
 
 <div class="print-root" bind:clientWidth={paneW}>
   <div class="scaler" style="{fontVar}zoom:{zoom};">
-    <Current data={$cv} accent={$prefs.accent} />
+    <Current data={$cv} accent={$prefs.accent} order={$prefs.sectionOrder} />
   </div>
 </div>
 

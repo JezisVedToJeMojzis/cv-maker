@@ -1,6 +1,119 @@
 <script>
-  let { data, accent } = $props();
+  let { data, accent, order = [] } = $props();
 </script>
+
+{#snippet sec(key)}
+  {#if key === 'experience' && data.experience.length}
+    <section>
+      <h2>Experience</h2>
+      {#each data.experience as x}
+        <div class="entry">
+          <div class="entry-head">
+            <strong>{x.role}, {x.company}</strong>
+            <span class="dates">{x.start}{x.start && x.end ? ' – ' : ''}{x.end}</span>
+          </div>
+          {#if x.location || x.mode}<div class="loc">{[x.location, x.mode].filter(Boolean).join(' · ')}</div>{/if}
+          <ul>
+            {#each x.bullets.filter(Boolean) as b}<li>{b}</li>{/each}
+          </ul>
+        </div>
+      {/each}
+    </section>
+  {:else if key === 'education' && data.education.length}
+    <section>
+      <h2>Education</h2>
+      {#each data.education as e}
+        <div class="entry">
+          <div class="entry-head">
+            <strong>{e.degree} — {e.school}</strong>
+            <span class="dates">{e.start}{e.start && e.end ? ' – ' : ''}{e.end}</span>
+          </div>
+          {#if e.note}<div class="loc">{e.note}</div>{/if}
+        </div>
+      {/each}
+    </section>
+  {:else if key === 'certifications' && data.certifications.length}
+    <section>
+      <h2>Certifications</h2>
+      {#each data.certifications as c}
+        <div class="entry">
+          <div class="entry-head">
+            <strong>{c.name}</strong>
+            <span class="dates">{c.year}</span>
+          </div>
+          {#if c.issuer}<div class="loc">{c.issuer}</div>{/if}
+        </div>
+      {/each}
+    </section>
+  {:else if key === 'projects' && data.projects.length}
+    <section>
+      <h2>Projects</h2>
+      {#each data.projects as p}
+        <div class="entry">
+          <div class="entry-head">
+            <strong>{p.name}</strong>
+            {#if p.link}<span class="dates">{p.link}</span>{/if}
+          </div>
+          <p class="proj">{p.description}</p>
+        </div>
+      {/each}
+    </section>
+  {:else if key === 'volunteering' && data.volunteering.length}
+    <section>
+      <h2>Volunteering</h2>
+      {#each data.volunteering as v}
+        <div class="entry">
+          <div class="entry-head">
+            <strong>{v.role}, {v.org}</strong>
+            <span class="dates">{v.start}{v.start && v.end ? ' – ' : ''}{v.end}</span>
+          </div>
+          {#if v.description}<div class="loc">{v.description}</div>{/if}
+        </div>
+      {/each}
+    </section>
+  {:else if key === 'publications' && data.publications.length}
+    <section>
+      <h2>Publications</h2>
+      {#each data.publications as p}
+        <div class="entry">
+          <div class="entry-head">
+            <strong>{p.title}</strong>
+            <span class="dates">{p.year}</span>
+          </div>
+          <div class="loc">{p.venue}{p.link ? ' · ' + p.link : ''}</div>
+        </div>
+      {/each}
+    </section>
+  {:else if key === 'awards' && data.awards.length}
+    <section>
+      <h2>Awards & Honours</h2>
+      {#each data.awards as a}
+        <div class="entry">
+          <div class="entry-head">
+            <strong>{a.name}</strong>
+            <span class="dates">{a.year}</span>
+          </div>
+          {#if a.issuer}<div class="loc">{a.issuer}</div>{/if}
+        </div>
+      {/each}
+    </section>
+  {:else if key === 'skills' && data.skills.length}
+    <section>
+      <h2>Skills</h2>
+      <p class="skills">{data.skills.join('  ·  ')}</p>
+    </section>
+  {:else if key === 'languages' && data.languages.length}
+    <section>
+      <h2>Languages</h2>
+      <p class="skills">{data.languages.map((l) => (l.level ? `${l.name} (${l.level})` : l.name)).join('  ·  ')}</p>
+    </section>
+  {:else if key === 'interests' && data.interests.length}
+    <section>
+      <h2>Interests</h2>
+      <p class="skills">{data.interests.join('  ·  ')}</p>
+    </section>
+  {/if}
+{/snippet}
 
 <div class="cv-page classic" style="--a:{accent}">
   <header>
@@ -22,134 +135,7 @@
     </section>
   {/if}
 
-  {#if data.experience.length}
-    <section>
-      <h2>Experience</h2>
-      {#each data.experience as x}
-        <div class="entry">
-          <div class="entry-head">
-            <strong>{x.role}, {x.company}</strong>
-            <span class="dates">{x.start}{x.start && x.end ? ' – ' : ''}{x.end}</span>
-          </div>
-          {#if x.location || x.mode}<div class="loc">{[x.location, x.mode].filter(Boolean).join(' · ')}</div>{/if}
-          <ul>
-            {#each x.bullets.filter(Boolean) as b}<li>{b}</li>{/each}
-          </ul>
-        </div>
-      {/each}
-    </section>
-  {/if}
-
-  {#if data.education.length}
-    <section>
-      <h2>Education</h2>
-      {#each data.education as e}
-        <div class="entry">
-          <div class="entry-head">
-            <strong>{e.degree} — {e.school}</strong>
-            <span class="dates">{e.start}{e.start && e.end ? ' – ' : ''}{e.end}</span>
-          </div>
-          {#if e.note}<div class="loc">{e.note}</div>{/if}
-        </div>
-      {/each}
-    </section>
-  {/if}
-
-  {#if data.certifications.length}
-    <section>
-      <h2>Certifications</h2>
-      {#each data.certifications as c}
-        <div class="entry">
-          <div class="entry-head">
-            <strong>{c.name}</strong>
-            <span class="dates">{c.year}</span>
-          </div>
-          {#if c.issuer}<div class="loc">{c.issuer}</div>{/if}
-        </div>
-      {/each}
-    </section>
-  {/if}
-
-  {#if data.projects.length}
-    <section>
-      <h2>Projects</h2>
-      {#each data.projects as p}
-        <div class="entry">
-          <div class="entry-head">
-            <strong>{p.name}</strong>
-            {#if p.link}<span class="dates">{p.link}</span>{/if}
-          </div>
-          <p class="proj">{p.description}</p>
-        </div>
-      {/each}
-    </section>
-  {/if}
-
-  {#if data.volunteering.length}
-    <section>
-      <h2>Volunteering</h2>
-      {#each data.volunteering as v}
-        <div class="entry">
-          <div class="entry-head">
-            <strong>{v.role}, {v.org}</strong>
-            <span class="dates">{v.start}{v.start && v.end ? ' – ' : ''}{v.end}</span>
-          </div>
-          {#if v.description}<div class="loc">{v.description}</div>{/if}
-        </div>
-      {/each}
-    </section>
-  {/if}
-
-  {#if data.publications.length}
-    <section>
-      <h2>Publications</h2>
-      {#each data.publications as p}
-        <div class="entry">
-          <div class="entry-head">
-            <strong>{p.title}</strong>
-            <span class="dates">{p.year}</span>
-          </div>
-          <div class="loc">{p.venue}{p.link ? ' · ' + p.link : ''}</div>
-        </div>
-      {/each}
-    </section>
-  {/if}
-
-  {#if data.awards.length}
-    <section>
-      <h2>Awards & Honours</h2>
-      {#each data.awards as a}
-        <div class="entry">
-          <div class="entry-head">
-            <strong>{a.name}</strong>
-            <span class="dates">{a.year}</span>
-          </div>
-          {#if a.issuer}<div class="loc">{a.issuer}</div>{/if}
-        </div>
-      {/each}
-    </section>
-  {/if}
-
-  {#if data.skills.length}
-    <section>
-      <h2>Skills</h2>
-      <p class="skills">{data.skills.join('  ·  ')}</p>
-    </section>
-  {/if}
-
-  {#if data.languages.length}
-    <section>
-      <h2>Languages</h2>
-      <p class="skills">{data.languages.map((l) => l.level ? `${l.name} (${l.level})` : l.name).join('  ·  ')}</p>
-    </section>
-  {/if}
-
-  {#if data.interests.length}
-    <section>
-      <h2>Interests</h2>
-      <p class="skills">{data.interests.join('  ·  ')}</p>
-    </section>
-  {/if}
+  {#each order as key (key)}{@render sec(key)}{/each}
 </div>
 
 <style>
