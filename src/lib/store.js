@@ -44,7 +44,8 @@ export const sampleCV = () => ({
       id: crypto.randomUUID(),
       role: 'Senior Product Designer',
       company: 'Northwind Labs',
-      location: 'Amsterdam',
+      location: 'Amsterdam, NL',
+      mode: 'Hybrid',
       start: '2021',
       end: 'Present',
       bullets: [
@@ -57,7 +58,8 @@ export const sampleCV = () => ({
       id: crypto.randomUUID(),
       role: 'Product Designer',
       company: 'Bright Studio',
-      location: 'Berlin',
+      location: 'Berlin, DE',
+      mode: 'On-site',
       start: '2018',
       end: '2021',
       bullets: [

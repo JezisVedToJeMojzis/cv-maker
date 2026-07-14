@@ -24,7 +24,7 @@
     <section><h2>Experience</h2>
       {#each data.experience as x}
         <div class="entry">
-          <div class="row"><strong>{x.role}</strong> <span class="at">{x.company}{x.location ? ', ' + x.location : ''}</span><span class="dates">{dates(x.start, x.end)}</span></div>
+          <div class="row"><strong>{x.role}</strong> <span class="at">{[x.company, x.location, x.mode].filter(Boolean).join(' · ')}</span><span class="dates">{dates(x.start, x.end)}</span></div>
           <ul>{#each x.bullets.filter(Boolean) as b}<li>{b}</li>{/each}</ul>
         </div>
       {/each}

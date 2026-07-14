@@ -38,7 +38,7 @@
   function addExperience() {
     $cv.experience = [
       ...$cv.experience,
-      { id: crypto.randomUUID(), role: '', company: '', location: '', start: '', end: '', bullets: [''] }
+      { id: crypto.randomUUID(), role: '', company: '', location: '', mode: '', start: '', end: '', bullets: [''] }
     ];
   }
   function removeExperience(id) {
@@ -205,7 +205,15 @@
         <div class="grid2">
           <label>Role<input bind:value={x.role} placeholder="Senior Engineer" /></label>
           <label>Company<input bind:value={x.company} placeholder="Acme Inc." /></label>
-          <label>Location<input bind:value={x.location} placeholder="Remote" /></label>
+          <label>Location<input bind:value={x.location} placeholder="Berlin, Germany" /></label>
+          <label>Work mode
+            <select bind:value={x.mode}>
+              <option value="">—</option>
+              <option value="On-site">On-site</option>
+              <option value="Hybrid">Hybrid</option>
+              <option value="Remote">Remote</option>
+            </select>
+          </label>
           <div class="grid2 tight">
             <label>Start<input bind:value={x.start} placeholder="2021" /></label>
             <label>End<input bind:value={x.end} placeholder="Present" /></label>
@@ -380,7 +388,8 @@
     color: var(--muted);
   }
   input,
-  textarea {
+  textarea,
+  select {
     padding: 8px 10px;
     border: 1px solid var(--border);
     border-radius: 8px;
@@ -390,8 +399,13 @@
     outline: none;
     resize: vertical;
   }
+  select {
+    height: 35px;
+    cursor: pointer;
+  }
   input:focus,
-  textarea:focus {
+  textarea:focus,
+  select:focus {
     border-color: var(--accent);
     box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 20%, transparent);
   }

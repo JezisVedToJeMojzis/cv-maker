@@ -28,7 +28,7 @@
         {#each data.experience as x}
           <div class="entry">
             <div class="row"><strong>{x.role}</strong><span class="dates">{dates(x.start, x.end)}</span></div>
-            <div class="sub">{x.company}{x.location ? ' · ' + x.location : ''}</div>
+            <div class="sub">{[x.company, x.location, x.mode].filter(Boolean).join(' · ')}</div>
             <ul>{#each x.bullets.filter(Boolean) as b}<li>{b}</li>{/each}</ul>
           </div>
         {/each}

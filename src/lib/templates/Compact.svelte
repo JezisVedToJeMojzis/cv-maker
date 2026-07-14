@@ -33,7 +33,7 @@
               <strong>{x.role}</strong>
               <span class="dates">{x.start}{x.start && x.end ? '–' : ''}{x.end}</span>
             </div>
-            <div class="entry-sub">{x.company}{x.location ? ' · ' + x.location : ''}</div>
+            <div class="entry-sub">{[x.company, x.location, x.mode].filter(Boolean).join(' · ')}</div>
             <ul>
               {#each x.bullets.filter(Boolean) as b}<li>{b}</li>{/each}
             </ul>
