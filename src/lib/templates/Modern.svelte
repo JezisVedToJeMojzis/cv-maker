@@ -246,14 +246,18 @@
     display: flex;
     justify-content: space-between;
     align-items: baseline;
+    gap: 10px;
   }
   .entry-head strong {
     font-size: 11pt;
+    min-width: 0;
+    overflow-wrap: anywhere;
   }
   .dates {
     color: #64748b;
     font-size: 9pt;
     white-space: nowrap;
+    flex-shrink: 0;
   }
   .entry-sub {
     color: #475569;

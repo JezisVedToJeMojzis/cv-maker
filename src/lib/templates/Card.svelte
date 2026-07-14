@@ -175,11 +175,21 @@
   }
   .row strong {
     font-size: 10.5pt;
+    min-width: 0;
+    overflow-wrap: anywhere;
   }
   .dates {
     color: #64748b;
     font-size: 8.5pt;
     white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .kv strong {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+  .kv span {
+    flex-shrink: 0;
   }
   .sub {
     color: #475569;

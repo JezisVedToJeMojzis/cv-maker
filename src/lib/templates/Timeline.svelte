@@ -164,11 +164,17 @@
     display: flex;
     justify-content: space-between;
     align-items: baseline;
+    gap: 10px;
+  }
+  .row strong {
+    min-width: 0;
+    overflow-wrap: anywhere;
   }
   .dates {
     color: #64748b;
     font-size: 9pt;
     white-space: nowrap;
+    flex-shrink: 0;
   }
   .sub {
     color: #475569;
@@ -202,8 +208,13 @@
     margin-bottom: 5px;
     font-size: 9.5pt;
   }
+  .kv strong {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
   .kv span {
     color: #64748b;
     white-space: nowrap;
+    flex-shrink: 0;
   }
 </style>

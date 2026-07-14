@@ -210,6 +210,11 @@
     display: flex;
     justify-content: space-between;
     align-items: baseline;
+    gap: 8px;
+  }
+  .entry-head strong {
+    min-width: 0;
+    overflow-wrap: anywhere;
   }
   .entry-sub {
     color: #475569;
@@ -219,6 +224,7 @@
     color: #64748b;
     font-size: 8.5pt;
     white-space: nowrap;
+    flex-shrink: 0;
   }
   ul {
     margin: 3px 0 0;

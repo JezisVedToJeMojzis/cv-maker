@@ -1,6 +1,40 @@
 <script>
   import { cv } from '../store.js';
 
+  // ---- Reordering: drag handle (desktop) + ↑/↓ buttons (works on touch too) ----
+  let dragKey = $state('');
+  let dragFrom = $state(-1);
+  let overIndex = $state(-1);
+
+  function move(key, from, to) {
+    const arr = $cv[key];
+    if (to < 0 || to >= arr.length || from === to) return;
+    const next = [...arr];
+    const [item] = next.splice(from, 1);
+    next.splice(to, 0, item);
+    $cv[key] = next;
+  }
+  function onDragStart(e, key, i) {
+    dragKey = key;
+    dragFrom = i;
+    e.dataTransfer.effectAllowed = 'move';
+  }
+  function onDragOver(e, key, i) {
+    if (dragKey !== key) return;
+    e.preventDefault();
+    overIndex = i;
+  }
+  function onDrop(key, i) {
+    if (dragKey !== key) return;
+    move(key, dragFrom, i);
+    onDragEnd();
+  }
+  function onDragEnd() {
+    dragKey = '';
+    dragFrom = -1;
+    overIndex = -1;
+  }
+
   function addExperience() {
     $cv.experience = [
       ...$cv.experience,
@@ -110,6 +144,25 @@
   }
 </script>
 
+{#snippet tools(key, i, len, onRemove)}
+  <div class="card-head">
+    <span
+      class="grip"
+      draggable="true"
+      title="Drag to reorder"
+      ondragstart={(e) => onDragStart(e, key, i)}
+      ondragend={onDragEnd}
+      role="button"
+      tabindex="-1"
+      aria-label="Drag to reorder"
+    >⠿</span>
+    <div class="spacer"></div>
+    <button class="mv" disabled={i === 0} onclick={() => move(key, i, i - 1)} title="Move up" aria-label="Move up">↑</button>
+    <button class="mv" disabled={i === len - 1} onclick={() => move(key, i, i + 1)} title="Move down" aria-label="Move down">↓</button>
+    <button class="del" title="Remove" onclick={onRemove}>✕</button>
+  </div>
+{/snippet}
+
 <div class="editor">
   <section>
     <h3>Basics</h3>
@@ -140,9 +193,15 @@
 
   <section>
     <div class="sec-head"><h3>Experience</h3><button class="add" onclick={addExperience}>+ Add</button></div>
-    {#each $cv.experience as x (x.id)}
-      <div class="card">
-        <button class="del" title="Remove" onclick={() => removeExperience(x.id)}>✕</button>
+    {#each $cv.experience as x, i (x.id)}
+      <div
+        class="card"
+        class:drop-target={dragKey === 'experience' && overIndex === i}
+        ondragover={(e) => onDragOver(e, 'experience', i)}
+        ondrop={() => onDrop('experience', i)}
+        role="listitem"
+      >
+        {@render tools('experience', i, $cv.experience.length, () => removeExperience(x.id))}
         <div class="grid2">
           <label>Role<input bind:value={x.role} placeholder="Senior Engineer" /></label>
           <label>Company<input bind:value={x.company} placeholder="Acme Inc." /></label>
@@ -154,10 +213,10 @@
         </div>
         <div class="bullets">
           <span class="lbl">Highlights</span>
-          {#each x.bullets as _, i}
+          {#each x.bullets as _, bi}
             <div class="bullet-row">
-              <input bind:value={x.bullets[i]} placeholder="What you did / achieved" />
-              <button class="del sm" onclick={() => removeBullet(x, i)}>✕</button>
+              <input bind:value={x.bullets[bi]} placeholder="What you did / achieved" />
+              <button class="del sm" onclick={() => removeBullet(x, bi)}>✕</button>
             </div>
           {/each}
           <button class="add sm" onclick={() => addBullet(x)}>+ bullet</button>
@@ -168,9 +227,9 @@
 
   <section>
     <div class="sec-head"><h3>Education</h3><button class="add" onclick={addEducation}>+ Add</button></div>
-    {#each $cv.education as e (e.id)}
-      <div class="card">
-        <button class="del" onclick={() => removeEducation(e.id)}>✕</button>
+    {#each $cv.education as e, i (e.id)}
+      <div class="card" class:drop-target={dragKey === 'education' && overIndex === i} ondragover={(ev) => onDragOver(ev, 'education', i)} ondrop={() => onDrop('education', i)} role="listitem">
+        {@render tools('education', i, $cv.education.length, () => removeEducation(e.id))}
         <div class="grid2">
           <label>Degree<input bind:value={e.degree} placeholder="B.Sc. Computer Science" /></label>
           <label>School<input bind:value={e.school} placeholder="MIT" /></label>
@@ -186,9 +245,9 @@
 
   <section>
     <div class="sec-head"><h3>Projects</h3><button class="add" onclick={addProject}>+ Add</button></div>
-    {#each $cv.projects as p (p.id)}
-      <div class="card">
-        <button class="del" onclick={() => removeProject(p.id)}>✕</button>
+    {#each $cv.projects as p, i (p.id)}
+      <div class="card" class:drop-target={dragKey === 'projects' && overIndex === i} ondragover={(ev) => onDragOver(ev, 'projects', i)} ondrop={() => onDrop('projects', i)} role="listitem">
+        {@render tools('projects', i, $cv.projects.length, () => removeProject(p.id))}
         <div class="grid2">
           <label>Name<input bind:value={p.name} placeholder="Side Project" /></label>
           <label>Link<input bind:value={p.link} placeholder="github.com/you/proj" /></label>
@@ -200,9 +259,9 @@
 
   <section>
     <div class="sec-head"><h3>Certifications</h3><button class="add" onclick={addCert}>+ Add</button></div>
-    {#each $cv.certifications as c (c.id)}
-      <div class="card">
-        <button class="del" onclick={() => removeCert(c.id)}>✕</button>
+    {#each $cv.certifications as c, i (c.id)}
+      <div class="card" class:drop-target={dragKey === 'certifications' && overIndex === i} ondragover={(ev) => onDragOver(ev, 'certifications', i)} ondrop={() => onDrop('certifications', i)} role="listitem">
+        {@render tools('certifications', i, $cv.certifications.length, () => removeCert(c.id))}
         <div class="grid2">
           <label>Name<input bind:value={c.name} placeholder="AWS Solutions Architect" /></label>
           <label>Issuer<input bind:value={c.issuer} placeholder="Amazon Web Services" /></label>
@@ -214,9 +273,9 @@
 
   <section>
     <div class="sec-head"><h3>Volunteering</h3><button class="add" onclick={addVolunteer}>+ Add</button></div>
-    {#each $cv.volunteering as v (v.id)}
-      <div class="card">
-        <button class="del" onclick={() => removeVolunteer(v.id)}>✕</button>
+    {#each $cv.volunteering as v, i (v.id)}
+      <div class="card" class:drop-target={dragKey === 'volunteering' && overIndex === i} ondragover={(ev) => onDragOver(ev, 'volunteering', i)} ondrop={() => onDrop('volunteering', i)} role="listitem">
+        {@render tools('volunteering', i, $cv.volunteering.length, () => removeVolunteer(v.id))}
         <div class="grid2">
           <label>Role<input bind:value={v.role} placeholder="Volunteer / Mentor" /></label>
           <label>Organization<input bind:value={v.org} placeholder="Red Cross" /></label>
@@ -232,9 +291,9 @@
 
   <section>
     <div class="sec-head"><h3>Publications</h3><button class="add" onclick={addPublication}>+ Add</button></div>
-    {#each $cv.publications as p (p.id)}
-      <div class="card">
-        <button class="del" onclick={() => removePublication(p.id)}>✕</button>
+    {#each $cv.publications as p, i (p.id)}
+      <div class="card" class:drop-target={dragKey === 'publications' && overIndex === i} ondragover={(ev) => onDragOver(ev, 'publications', i)} ondrop={() => onDrop('publications', i)} role="listitem">
+        {@render tools('publications', i, $cv.publications.length, () => removePublication(p.id))}
         <label>Title<input bind:value={p.title} placeholder="Paper / article title" /></label>
         <div class="grid2">
           <label>Venue<input bind:value={p.venue} placeholder="Journal / Conference / Blog" /></label>
@@ -249,9 +308,9 @@
 
   <section>
     <div class="sec-head"><h3>Awards & Honours</h3><button class="add" onclick={addAward}>+ Add</button></div>
-    {#each $cv.awards as a (a.id)}
-      <div class="card">
-        <button class="del" onclick={() => removeAward(a.id)}>✕</button>
+    {#each $cv.awards as a, i (a.id)}
+      <div class="card" class:drop-target={dragKey === 'awards' && overIndex === i} ondragover={(ev) => onDragOver(ev, 'awards', i)} ondrop={() => onDrop('awards', i)} role="listitem">
+        {@render tools('awards', i, $cv.awards.length, () => removeAward(a.id))}
         <div class="grid2">
           <label>Award<input bind:value={a.name} placeholder="Employee of the Year" /></label>
           <label>Issuer<input bind:value={a.issuer} placeholder="Acme Inc." /></label>
@@ -263,9 +322,9 @@
 
   <section>
     <div class="sec-head"><h3>Languages</h3><button class="add" onclick={addLanguage}>+ Add</button></div>
-    {#each $cv.languages as l (l.id)}
-      <div class="card">
-        <button class="del" onclick={() => removeLanguage(l.id)}>✕</button>
+    {#each $cv.languages as l, i (l.id)}
+      <div class="card" class:drop-target={dragKey === 'languages' && overIndex === i} ondragover={(ev) => onDragOver(ev, 'languages', i)} ondrop={() => onDrop('languages', i)} role="listitem">
+        {@render tools('languages', i, $cv.languages.length, () => removeLanguage(l.id))}
         <div class="grid2">
           <label>Language<input bind:value={l.name} placeholder="English" /></label>
           <label>Level<input bind:value={l.level} placeholder="Fluent (C1)" /></label>
@@ -345,14 +404,59 @@
     gap: 8px;
   }
   .card {
-    position: relative;
     border: 1px solid var(--border);
     border-radius: 12px;
-    padding: 14px;
+    padding: 12px 14px 14px;
     background: #fbfcfe;
     display: flex;
     flex-direction: column;
     gap: 10px;
+  }
+  .card.drop-target {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent);
+  }
+  .card-head {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: -2px;
+  }
+  .grip {
+    cursor: grab;
+    color: #94a3b8;
+    font-size: 16px;
+    line-height: 1;
+    padding: 0 4px;
+    user-select: none;
+    letter-spacing: -2px;
+  }
+  .grip:active {
+    cursor: grabbing;
+  }
+  .spacer {
+    flex: 1;
+  }
+  .mv {
+    border: 1px solid var(--border);
+    background: #fff;
+    color: var(--muted);
+    border-radius: 6px;
+    width: 26px;
+    height: 26px;
+    font-size: 13px;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .mv:hover:not(:disabled) {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  .mv:disabled {
+    opacity: 0.35;
+    cursor: default;
   }
   .bullets {
     display: flex;
@@ -384,19 +488,14 @@
     padding: 3px 10px;
   }
   .del {
-    position: absolute;
-    top: 8px;
-    right: 8px;
     border: none;
     background: transparent;
     color: #94a3b8;
     font-size: 13px;
+    padding: 4px 6px;
   }
   .del:hover {
     color: #ef4444;
-  }
-  .del.sm {
-    position: static;
   }
   .photo-row {
     display: flex;

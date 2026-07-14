@@ -217,11 +217,17 @@
     display: flex;
     justify-content: space-between;
     align-items: baseline;
+    gap: 10px;
+  }
+  .entry-head strong {
+    min-width: 0;
+    overflow-wrap: anywhere;
   }
   .dates {
     color: #64748b;
     font-size: 10pt;
     white-space: nowrap;
+    flex-shrink: 0;
   }
   .loc {
     color: #475569;

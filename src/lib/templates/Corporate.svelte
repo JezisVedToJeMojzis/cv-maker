@@ -194,11 +194,14 @@
   }
   .row strong {
     font-size: 11pt;
+    min-width: 0;
+    overflow-wrap: anywhere;
   }
   .dates {
     color: #64748b;
     font-size: 9pt;
     white-space: nowrap;
+    flex-shrink: 0;
   }
   .sub {
     color: #475569;

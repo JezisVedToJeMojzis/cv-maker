@@ -186,11 +186,27 @@
     display: flex;
     justify-content: space-between;
     align-items: baseline;
+    gap: 12px;
+  }
+  .row strong {
+    min-width: 0;
+    overflow-wrap: anywhere;
   }
   .dates {
     color: #64748b;
     font-size: 9pt;
     white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .kv {
+    align-items: baseline;
+  }
+  .kv strong {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+  .kv span {
+    flex-shrink: 0;
   }
   .sub {
     color: #475569;

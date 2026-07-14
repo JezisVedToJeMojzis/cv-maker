@@ -151,6 +151,7 @@
     display: flex;
     align-items: baseline;
     gap: 8px;
+    flex-wrap: wrap;
   }
   .row strong {
     font-size: 10.5pt;
@@ -158,12 +159,15 @@
   .at {
     color: #666;
     font-size: 9.5pt;
+    min-width: 0;
+    overflow-wrap: anywhere;
   }
   .dates {
     margin-left: auto;
     color: #999;
     font-size: 9pt;
     white-space: nowrap;
+    flex-shrink: 0;
   }
   ul {
     margin: 3px 0 0;
