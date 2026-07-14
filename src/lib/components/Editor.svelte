@@ -69,7 +69,7 @@
   function addExperience() {
     $cv.experience = [
       ...$cv.experience,
-      { id: crypto.randomUUID(), role: '', company: '', location: '', mode: '', start: '', end: '', bullets: [''] }
+      { id: crypto.randomUUID(), role: '', company: '', location: '', mode: '', start: '', end: '', companyDesc: '', bullets: [''] }
     ];
   }
   function removeExperience(id) {
@@ -280,6 +280,9 @@
             <label>End<input bind:value={x.end} placeholder="Present" /></label>
           </div>
         </div>
+        <label>About the company
+          <textarea rows="2" bind:value={x.companyDesc} placeholder="One line on what the company does (optional)"></textarea>
+        </label>
         <div class="bullets">
           <span class="lbl">Highlights</span>
           {#each x.bullets as _, bi}

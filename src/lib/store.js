@@ -48,6 +48,7 @@ export const sampleCV = () => ({
       mode: 'Hybrid',
       start: '2021',
       end: 'Present',
+      companyDesc: 'B2B analytics platform used by 400+ enterprise teams.',
       bullets: [
         'Led the redesign of the core dashboard, lifting task-completion rate by 34%.',
         'Built and maintained the design system used across 5 product teams.',
@@ -62,6 +63,7 @@ export const sampleCV = () => ({
       mode: 'On-site',
       start: '2018',
       end: '2021',
+      companyDesc: 'Boutique product design agency for fintech and health startups.',
       bullets: [
         'Designed mobile-first flows for fintech and health clients from concept to launch.',
         'Partnered with engineers to ship pixel-accurate, accessible UI.'

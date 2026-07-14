@@ -48,6 +48,7 @@
             <span class="dates">{x.start}{x.start && x.end ? ' – ' : ''}{x.end}</span>
           </div>
           <div class="entry-sub">{[x.company, x.location, x.mode].filter(Boolean).join(' · ')}</div>
+          {#if x.companyDesc}<div class="co-desc">{x.companyDesc}</div>{/if}
           <ul>
             {#each x.bullets.filter(Boolean) as b}<li>{b}</li>{/each}
           </ul>

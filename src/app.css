@@ -25,6 +25,15 @@ button {
   cursor: pointer;
 }
 
+/* One-line company description shown under the company in Experience.
+   Global (not scoped) so every template can use it without its own rule. */
+.co-desc {
+  font-style: italic;
+  color: #64748b;
+  font-size: 0.9em;
+  margin: 2px 0 1px;
+}
+
 input,
 textarea {
   font: inherit;
