@@ -10,6 +10,7 @@
         <div class="entry">
           <div class="row"><strong>{x.role}</strong> <span class="at">{[x.company, x.location, x.mode].filter(Boolean).join(' · ')}</span><span class="dates">{dates(x.start, x.end)}</span></div>
           {#if x.companyDesc}<div class="co-desc">{x.companyDesc}</div>{/if}
+          {#if x.skills?.length}<div class="entry-skills">{#each x.skills as s}<span>{s}</span>{/each}</div>{/if}
           <ul>{#each x.bullets.filter(Boolean) as b}<li>{b}</li>{/each}</ul>
         </div>
       {/each}
@@ -17,13 +18,13 @@
   {:else if key === 'projects' && data.projects.length}
     <section><h2>Projects</h2>
       {#each data.projects as p}
-        <div class="entry"><div class="row"><strong>{p.name}</strong>{#if p.link}<span class="at">{p.link}</span>{/if}</div><p class="p">{p.description}</p></div>
+        <div class="entry"><div class="row"><strong>{p.name}</strong>{#if p.link}<span class="at">{p.link}</span>{/if}</div><p class="p">{p.description}</p>{#if p.skills?.length}<div class="entry-skills">{#each p.skills as s}<span>{s}</span>{/each}</div>{/if}</div>
       {/each}
     </section>
   {:else if key === 'volunteering' && data.volunteering.length}
     <section><h2>Volunteering</h2>
       {#each data.volunteering as v}
-        <div class="entry"><div class="row"><strong>{v.role}</strong> <span class="at">{v.org}</span><span class="dates">{dates(v.start, v.end)}</span></div>{#if v.description}<p class="p">{v.description}</p>{/if}</div>
+        <div class="entry"><div class="row"><strong>{v.role}</strong> <span class="at">{v.org}</span><span class="dates">{dates(v.start, v.end)}</span></div>{#if v.description}<p class="p">{v.description}</p>{/if}{#if v.skills?.length}<div class="entry-skills">{#each v.skills as s}<span>{s}</span>{/each}</div>{/if}</div>
       {/each}
     </section>
   {:else if key === 'publications' && data.publications.length}
@@ -35,7 +36,7 @@
   {:else if key === 'education' && data.education.length}
     <section><h2>Education</h2>
       {#each data.education as e}
-        <div class="entry"><div class="row"><strong>{e.degree}</strong> <span class="at">{e.school}{e.note ? ' · ' + e.note : ''}</span><span class="dates">{dates(e.start, e.end)}</span></div></div>
+        <div class="entry"><div class="row"><strong>{e.degree}</strong> <span class="at">{e.school}{e.note ? ' · ' + e.note : ''}</span><span class="dates">{dates(e.start, e.end)}</span></div>{#if e.skills?.length}<div class="entry-skills">{#each e.skills as s}<span>{s}</span>{/each}</div>{/if}</div>
       {/each}
     </section>
   {:else if key === 'certifications' && data.certifications.length}

@@ -3,6 +3,15 @@
 
   const labelOf = (k) => SECTIONS.find((s) => s.key === k)?.label ?? k;
 
+  // Per-entry relevant skills, edited as a comma-separated string (commits on blur).
+  function setEntrySkills(entry, value) {
+    entry.skills = value
+      .split(',')
+      .map((s) => s.trim())
+      .filter(Boolean);
+    cv.set($cv);
+  }
+
   // ---- Whole-section reordering (drives how sections appear on the CV) ----
   let secDrag = $state(-1);
   let secOver = $state(-1);
@@ -69,7 +78,7 @@
   function addExperience() {
     $cv.experience = [
       ...$cv.experience,
-      { id: crypto.randomUUID(), role: '', company: '', location: '', mode: '', start: '', end: '', companyDesc: '', bullets: [''] }
+      { id: crypto.randomUUID(), role: '', company: '', location: '', mode: '', start: '', end: '', companyDesc: '', skills: [], bullets: [''] }
     ];
   }
   function removeExperience(id) {
@@ -87,7 +96,7 @@
   function addEducation() {
     $cv.education = [
       ...$cv.education,
-      { id: crypto.randomUUID(), degree: '', school: '', location: '', start: '', end: '', note: '' }
+      { id: crypto.randomUUID(), degree: '', school: '', location: '', start: '', end: '', note: '', skills: [] }
     ];
   }
   function removeEducation(id) {
@@ -95,7 +104,7 @@
   }
 
   function addProject() {
-    $cv.projects = [...$cv.projects, { id: crypto.randomUUID(), name: '', link: '', description: '' }];
+    $cv.projects = [...$cv.projects, { id: crypto.randomUUID(), name: '', link: '', description: '', skills: [] }];
   }
   function removeProject(id) {
     $cv.projects = $cv.projects.filter((p) => p.id !== id);
@@ -146,7 +155,7 @@
   function addVolunteer() {
     $cv.volunteering = [
       ...$cv.volunteering,
-      { id: crypto.randomUUID(), role: '', org: '', start: '', end: '', description: '' }
+      { id: crypto.randomUUID(), role: '', org: '', start: '', end: '', description: '', skills: [] }
     ];
   }
   function removeVolunteer(id) {
@@ -192,6 +201,16 @@
     <button class="mv" disabled={i === len - 1} onclick={() => move(key, i, i + 1)} title="Move down" aria-label="Move down">↓</button>
     <button class="del" title="Remove" onclick={onRemove}>✕</button>
   </div>
+{/snippet}
+
+{#snippet skillsField(entry)}
+  <label>Relevant skills
+    <input
+      value={(entry.skills || []).join(', ')}
+      onchange={(e) => setEntrySkills(entry, e.target.value)}
+      placeholder="Comma-separated, e.g. React, Figma, SQL"
+    />
+  </label>
 {/snippet}
 
 <div class="editor">
@@ -283,6 +302,7 @@
         <label>About the company
           <textarea rows="2" bind:value={x.companyDesc} placeholder="One line on what the company does (optional)"></textarea>
         </label>
+        {@render skillsField(x)}
         <div class="bullets">
           <span class="lbl">Highlights</span>
           {#each x.bullets as _, bi}
@@ -311,6 +331,7 @@
           </div>
           <label>Note<input bind:value={e.note} placeholder="GPA, honors…" /></label>
         </div>
+        {@render skillsField(e)}
       </div>
     {/each}
   </section>
@@ -325,6 +346,7 @@
           <label>Link<input bind:value={p.link} placeholder="github.com/you/proj" /></label>
         </div>
         <label>Description<textarea rows="2" bind:value={p.description} placeholder="What it does…"></textarea></label>
+        {@render skillsField(p)}
       </div>
     {/each}
   </section>
@@ -357,6 +379,7 @@
           </div>
         </div>
         <label>Description<textarea rows="2" bind:value={v.description} placeholder="What you did…"></textarea></label>
+        {@render skillsField(v)}
       </div>
     {/each}
   </section>

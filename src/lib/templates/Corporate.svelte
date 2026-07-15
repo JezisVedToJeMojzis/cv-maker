@@ -12,6 +12,7 @@
             <div class="row"><strong>{x.role}</strong><span class="dates">{dates(x.start, x.end)}</span></div>
             <div class="sub">{[x.company, x.location, x.mode].filter(Boolean).join(' · ')}</div>
             {#if x.companyDesc}<div class="co-desc">{x.companyDesc}</div>{/if}
+            {#if x.skills?.length}<div class="entry-skills">{#each x.skills as s}<span>{s}</span>{/each}</div>{/if}
             <ul>{#each x.bullets.filter(Boolean) as b}<li>{b}</li>{/each}</ul>
           </div>
         {/each}
@@ -21,7 +22,7 @@
     <div class="block"><div class="label">Education</div>
       <div class="content">
         {#each data.education as e}
-          <div class="entry"><div class="row"><strong>{e.degree}</strong><span class="dates">{dates(e.start, e.end)}</span></div><div class="sub">{e.school}{e.note ? ' · ' + e.note : ''}</div></div>
+          <div class="entry"><div class="row"><strong>{e.degree}</strong><span class="dates">{dates(e.start, e.end)}</span></div><div class="sub">{e.school}{e.note ? ' · ' + e.note : ''}</div>{#if e.skills?.length}<div class="entry-skills">{#each e.skills as s}<span>{s}</span>{/each}</div>{/if}</div>
         {/each}
       </div>
     </div>
@@ -29,7 +30,7 @@
     <div class="block"><div class="label">Projects</div>
       <div class="content">
         {#each data.projects as p}
-          <div class="entry"><div class="row"><strong>{p.name}</strong>{#if p.link}<span class="dates">{p.link}</span>{/if}</div><div class="sub">{p.description}</div></div>
+          <div class="entry"><div class="row"><strong>{p.name}</strong>{#if p.link}<span class="dates">{p.link}</span>{/if}</div><div class="sub">{p.description}</div>{#if p.skills?.length}<div class="entry-skills">{#each p.skills as s}<span>{s}</span>{/each}</div>{/if}</div>
         {/each}
       </div>
     </div>
@@ -37,7 +38,7 @@
     <div class="block"><div class="label">Volunteering</div>
       <div class="content">
         {#each data.volunteering as v}
-          <div class="entry"><div class="row"><strong>{v.role}</strong><span class="dates">{dates(v.start, v.end)}</span></div><div class="sub">{v.org}{v.description ? ' — ' + v.description : ''}</div></div>
+          <div class="entry"><div class="row"><strong>{v.role}</strong><span class="dates">{dates(v.start, v.end)}</span></div><div class="sub">{v.org}{v.description ? ' — ' + v.description : ''}</div>{#if v.skills?.length}<div class="entry-skills">{#each v.skills as s}<span>{s}</span>{/each}</div>{/if}</div>
         {/each}
       </div>
     </div>

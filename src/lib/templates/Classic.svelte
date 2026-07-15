@@ -14,6 +14,7 @@
           </div>
           {#if x.location || x.mode}<div class="loc">{[x.location, x.mode].filter(Boolean).join(' · ')}</div>{/if}
           {#if x.companyDesc}<div class="co-desc">{x.companyDesc}</div>{/if}
+          {#if x.skills?.length}<div class="entry-skills">{#each x.skills as s}<span>{s}</span>{/each}</div>{/if}
           <ul>
             {#each x.bullets.filter(Boolean) as b}<li>{b}</li>{/each}
           </ul>
@@ -30,6 +31,7 @@
             <span class="dates">{e.start}{e.start && e.end ? ' – ' : ''}{e.end}</span>
           </div>
           {#if e.note}<div class="loc">{e.note}</div>{/if}
+          {#if e.skills?.length}<div class="entry-skills">{#each e.skills as s}<span>{s}</span>{/each}</div>{/if}
         </div>
       {/each}
     </section>
@@ -56,6 +58,7 @@
             {#if p.link}<span class="dates">{p.link}</span>{/if}
           </div>
           <p class="proj">{p.description}</p>
+          {#if p.skills?.length}<div class="entry-skills">{#each p.skills as s}<span>{s}</span>{/each}</div>{/if}
         </div>
       {/each}
     </section>
@@ -69,6 +72,7 @@
             <span class="dates">{v.start}{v.start && v.end ? ' – ' : ''}{v.end}</span>
           </div>
           {#if v.description}<div class="loc">{v.description}</div>{/if}
+          {#if v.skills?.length}<div class="entry-skills">{#each v.skills as s}<span>{s}</span>{/each}</div>{/if}
         </div>
       {/each}
     </section>
