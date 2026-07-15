@@ -15,10 +15,10 @@
           </div>
           {#if x.location || x.mode}<div class="loc">{[x.location, x.mode].filter(Boolean).join(' · ')}</div>{/if}
           {#if x.companyDesc}<div class="co-desc">{x.companyDesc}</div>{/if}
-          {#if x.skills?.length}<div class="entry-skills">{#each x.skills as s}<span>{s}</span>{/each}</div>{/if}
           <ul>
             {#each x.bullets.filter(Boolean) as b}<li>{b}</li>{/each}
           </ul>
+          {#if x.skills?.length}<div class="entry-skills">{#each x.skills as s}<span>{s}</span>{/each}</div>{/if}
         </div>
       {/each}
     </section>
