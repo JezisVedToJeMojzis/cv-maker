@@ -9,7 +9,7 @@
 {#snippet sec(key)}
   {#if key === 'skills' && data.skills.length}
     <h2>Skills</h2>
-    <ul class="tags">{#each data.skills as s}<li>{s}</li>{/each}</ul>
+    <ul class="skills-sentences">{#each data.skills as s}<li>{s}</li>{/each}</ul>
   {:else if key === 'languages' && data.languages.length}
     <h2>Languages</h2>
     {#each data.languages as l}<div class="mini"><strong>{l.name}</strong><span>{l.level}</span></div>{/each}

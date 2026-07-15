@@ -66,7 +66,7 @@
     </section>
   {:else if key === 'skills' && data.skills.length}
     <section><h2>Skills</h2>
-      <div class="chips">{#each data.skills as s}<span>{s}</span>{/each}</div>
+      <ul class="skills-sentences">{#each data.skills as s}<li>{s}</li>{/each}</ul>
     </section>
   {:else if key === 'languages' && data.languages.length}
     <section><h2>Languages</h2>

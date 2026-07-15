@@ -6,7 +6,7 @@
   // Per-entry relevant skills, edited as a comma-separated string (commits on blur).
   function setEntrySkills(entry, value) {
     entry.skills = value
-      .split('\n')
+      .split(',')
       .map((s) => s.trim())
       .filter(Boolean);
     cv.set($cv);
@@ -110,10 +110,10 @@
     $cv.projects = $cv.projects.filter((p) => p.id !== id);
   }
 
-  let skillsText = $state($cv.skills.join(', '));
+  let skillsText = $state($cv.skills.join('\n'));
   function syncSkills() {
     $cv.skills = skillsText
-      .split(',')
+      .split('\n')
       .map((s) => s.trim())
       .filter(Boolean);
   }
@@ -204,13 +204,12 @@
 {/snippet}
 
 {#snippet skillsField(entry)}
-  <label>Relevant skills <span class="hint">(one bullet per line)</span>
-    <textarea
-      rows="2"
-      value={(entry.skills || []).join('\n')}
+  <label>Relevant skills <span class="hint">(comma-separated bubbles)</span>
+    <input
+      value={(entry.skills || []).join(', ')}
       onchange={(e) => setEntrySkills(entry, e.target.value)}
-      placeholder={'One per line, e.g.\nLed design-system work in Figma\nRan weekly user research'}
-    ></textarea>
+      placeholder="e.g. React, Figma, SQL"
+    />
   </label>
 {/snippet}
 
@@ -434,8 +433,8 @@
 
   <section>
     <h3>Skills</h3>
-    <label>Comma-separated
-      <textarea rows="2" bind:value={skillsText} oninput={syncSkills} placeholder="Go, TypeScript, SQL, Docker"></textarea>
+    <label>One sentence per line
+      <textarea rows="3" bind:value={skillsText} oninput={syncSkills} placeholder={'Proficient in Go and TypeScript across the stack.\nComfortable with Postgres, Docker and CI/CD.'}></textarea>
     </label>
   </section>
 

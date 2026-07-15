@@ -53,7 +53,7 @@
       {/each}
     </section>
   {:else if key === 'skills' && data.skills.length}
-    <section><h2>Skills</h2><p class="p">{data.skills.join(' · ')}</p></section>
+    <section><h2>Skills</h2><ul class="skills-sentences">{#each data.skills as s}<li>{s}</li>{/each}</ul></section>
   {:else if key === 'languages' && data.languages.length}
     <section><h2>Languages</h2><p class="p">{data.languages.map((l) => (l.level ? `${l.name} (${l.level})` : l.name)).join(' · ')}</p></section>
   {:else if key === 'interests' && data.interests.length}

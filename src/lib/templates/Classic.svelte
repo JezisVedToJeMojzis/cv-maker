@@ -106,7 +106,7 @@
   {:else if key === 'skills' && data.skills.length}
     <section>
       <h2>Skills</h2>
-      <p class="skills">{data.skills.join('  ·  ')}</p>
+      <ul class="skills-sentences">{#each data.skills as s}<li>{s}</li>{/each}</ul>
     </section>
   {:else if key === 'languages' && data.languages.length}
     <section>

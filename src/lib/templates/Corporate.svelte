@@ -68,7 +68,7 @@
       </div>
     </div>
   {:else if key === 'skills' && data.skills.length}
-    <div class="block"><div class="label">Skills</div><div class="content"><p class="inline">{data.skills.join('  ·  ')}</p></div></div>
+    <div class="block"><div class="label">Skills</div><div class="content"><ul class="skills-sentences">{#each data.skills as s}<li>{s}</li>{/each}</ul></div></div>
   {:else if key === 'languages' && data.languages.length}
     <div class="block"><div class="label">Languages</div><div class="content"><p class="inline">{data.languages.map((l) => (l.level ? `${l.name} (${l.level})` : l.name)).join('  ·  ')}</p></div></div>
   {:else if key === 'interests' && data.interests.length}

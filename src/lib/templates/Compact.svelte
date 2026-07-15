@@ -60,9 +60,7 @@
     {/each}
   {:else if key === 'skills' && data.skills.length}
     <h2>Skills</h2>
-    <ul class="plain">
-      {#each data.skills as s}<li>{s}</li>{/each}
-    </ul>
+    <ul class="skills-sentences">{#each data.skills as s}<li>{s}</li>{/each}</ul>
   {:else if key === 'languages' && data.languages.length}
     <h2>Languages</h2>
     <ul class="plain">

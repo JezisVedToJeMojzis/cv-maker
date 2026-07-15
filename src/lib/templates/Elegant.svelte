@@ -64,7 +64,7 @@
       {/each}
     </section>
   {:else if key === 'skills' && data.skills.length}
-    <section><h2>Skills</h2><p class="inline">{data.skills.join(' · ')}</p></section>
+    <section><h2>Skills</h2><ul class="skills-sentences">{#each data.skills as s}<li>{s}</li>{/each}</ul></section>
   {:else if key === 'languages' && data.languages.length}
     <section><h2>Languages</h2>
       {#each data.languages as l}<div class="mini"><strong>{l.name}</strong><span>{l.level}</span></div>{/each}

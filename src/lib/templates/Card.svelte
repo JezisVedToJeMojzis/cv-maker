@@ -38,7 +38,7 @@
       {/each}
     </div>
   {:else if key === 'skills' && data.skills.length}
-    <div class="card"><h2>Skills</h2><div class="chips">{#each data.skills as s}<span>{s}</span>{/each}</div></div>
+    <div class="card"><h2>Skills</h2><ul class="skills-sentences">{#each data.skills as s}<li>{s}</li>{/each}</ul></div>
   {:else if key === 'languages' && data.languages.length}
     <div class="card"><h2>Languages</h2>{#each data.languages as l}<div class="kv"><strong>{l.name}</strong><span>{l.level}</span></div>{/each}</div>
   {:else if key === 'education' && data.education.length}
