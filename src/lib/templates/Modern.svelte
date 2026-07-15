@@ -1,4 +1,5 @@
 <script>
+  import { calcAge } from '../util.js';
   let { data, accent, order = [] } = $props();
   const SIDE = ['skills', 'languages', 'education', 'certifications', 'interests'];
   const MAIN = ['experience', 'projects', 'volunteering', 'publications', 'awards'];
@@ -128,6 +129,7 @@
       {#if data.basics.phone}<span>☎ {data.basics.phone}</span>{/if}
       {#if data.basics.location}<span>◍ {data.basics.location}</span>{/if}
       {#if data.basics.website}<span>⬡ {data.basics.website}</span>{/if}
+      {#if calcAge(data.basics.birthdate) !== ''}<span>🎂 Age {calcAge(data.basics.birthdate)}</span>{/if}
     </div>
 
     {#each order.filter((k) => SIDE.includes(k)) as key (key)}{@render sec(key)}{/each}

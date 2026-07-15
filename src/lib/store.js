@@ -11,6 +11,7 @@ export const emptyCV = () => ({
     location: '',
     website: '',
     photo: '',
+    birthdate: '',
     summary: ''
   },
   experience: [],
@@ -36,6 +37,7 @@ export const sampleCV = () => ({
     location: 'Amsterdam, Netherlands',
     website: 'alexrivera.design',
     photo: '',
+    birthdate: '1993-06-14',
     summary:
       'Product designer with 6+ years turning fuzzy problems into clean, usable interfaces. I care about accessibility, fast iteration, and shipping things people actually enjoy using.'
   },

@@ -267,6 +267,9 @@
       <label>Phone<input bind:value={$cv.basics.phone} placeholder="+1 555 0100" /></label>
       <label>Location<input bind:value={$cv.basics.location} placeholder="Berlin, DE" /></label>
       <label>Website<input bind:value={$cv.basics.website} placeholder="janedoe.com" /></label>
+      <label>Date of birth <span class="hint">(shows age, optional)</span>
+        <input type="date" bind:value={$cv.basics.birthdate} />
+      </label>
     </div>
     <label>Summary<textarea rows="3" bind:value={$cv.basics.summary} placeholder="Short professional summary…"></textarea></label>
   </section>
@@ -495,6 +498,10 @@
   select:focus {
     border-color: var(--accent);
     box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 20%, transparent);
+  }
+  .hint {
+    font-size: 10px;
+    opacity: 0.7;
   }
   .grid2 {
     display: grid;
