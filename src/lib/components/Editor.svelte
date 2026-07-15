@@ -6,7 +6,7 @@
   // Per-entry relevant skills, edited as a comma-separated string (commits on blur).
   function setEntrySkills(entry, value) {
     entry.skills = value
-      .split(',')
+      .split('\n')
       .map((s) => s.trim())
       .filter(Boolean);
     cv.set($cv);
@@ -204,12 +204,13 @@
 {/snippet}
 
 {#snippet skillsField(entry)}
-  <label>Relevant skills
-    <input
-      value={(entry.skills || []).join(', ')}
+  <label>Relevant skills <span class="hint">(one bullet per line)</span>
+    <textarea
+      rows="2"
+      value={(entry.skills || []).join('\n')}
       onchange={(e) => setEntrySkills(entry, e.target.value)}
-      placeholder="Comma-separated, e.g. React, Figma, SQL"
-    />
+      placeholder={'One per line, e.g.\nLed design-system work in Figma\nRan weekly user research'}
+    ></textarea>
   </label>
 {/snippet}
 

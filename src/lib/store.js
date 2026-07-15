@@ -51,7 +51,7 @@ export const sampleCV = () => ({
       start: '2021',
       end: 'Present',
       companyDesc: 'B2B analytics platform used by 400+ enterprise teams.',
-      skills: ['Figma', 'Design Systems', 'User Research', 'Accessibility'],
+      skills: ['Led design-system work across 5 teams in Figma', 'Ran weekly user research and usability testing'],
       bullets: [
         'Led the redesign of the core dashboard, lifting task-completion rate by 34%.',
         'Built and maintained the design system used across 5 product teams.',
@@ -67,7 +67,7 @@ export const sampleCV = () => ({
       start: '2018',
       end: '2021',
       companyDesc: 'Boutique product design agency for fintech and health startups.',
-      skills: ['Figma', 'Prototyping', 'HTML/CSS'],
+      skills: ['Prototyping and pixel-accurate front-end work (HTML/CSS)'],
       bullets: [
         'Designed mobile-first flows for fintech and health clients from concept to launch.',
         'Partnered with engineers to ship pixel-accurate, accessible UI.'
@@ -83,7 +83,7 @@ export const sampleCV = () => ({
       start: '2014',
       end: '2018',
       note: 'Graduated with honours',
-      skills: ['UX Research', 'Interaction Design']
+      skills: ['Focused on interaction design and UX research']
     }
   ],
   skills: ['Figma', 'Design Systems', 'Prototyping', 'User Research', 'HTML/CSS', 'Accessibility'],
@@ -93,7 +93,7 @@ export const sampleCV = () => ({
       name: 'Aurora Design Kit',
       link: 'alexrivera.design/aurora',
       description: 'An open-source Figma UI kit with 200+ accessible components. 4k+ downloads.',
-      skills: ['Figma', 'Accessibility', 'Design Tokens']
+      skills: ['Built with Figma, design tokens and a focus on accessibility']
     }
   ],
   certifications: [
@@ -107,7 +107,7 @@ export const sampleCV = () => ({
       start: '2020',
       end: 'Present',
       description: 'Mentor early-career designers with portfolio reviews and career advice.',
-      skills: ['Mentoring', 'Portfolio Review']
+      skills: ['Mentoring and portfolio reviews for early-career designers']
     }
   ],
   publications: [
