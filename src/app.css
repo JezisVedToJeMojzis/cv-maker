@@ -126,4 +126,35 @@ textarea {
     width: 210mm !important;
     min-height: 297mm !important;
   }
+
+  /* ---- Clean page breaks ----
+     Keep each entry whole instead of slicing it across the page boundary,
+     and never strand a section heading at the very bottom of a page.
+     Class names below are the shared ones used across all templates. */
+  .entry,
+  .node,
+  .edu,
+  .kv,
+  li,
+  .entry-head,
+  .entry-skills,
+  .co-desc,
+  img {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+  h1,
+  h2,
+  h3,
+  .label,
+  .title {
+    break-after: avoid;
+    page-break-after: avoid;
+  }
+  /* A heading plus its first entry should stay together. */
+  h2 + *,
+  .label + * {
+    break-before: avoid;
+    page-break-before: avoid;
+  }
 }
