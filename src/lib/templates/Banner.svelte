@@ -247,4 +247,14 @@
     color: #64748b;
     text-align: right;
   }
+
+  /* Print: keep a whole section together — if it doesn't fit on the current
+     page, push the entire section (heading + entries) to the next one rather
+     than slicing it in half. */
+  @media print {
+    section {
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+  }
 </style>
