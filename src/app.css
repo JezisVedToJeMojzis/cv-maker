@@ -78,9 +78,15 @@ textarea {
    Hide-with-visibility (not display) so the nested .print-root stays
    renderable regardless of which pane the phone layout is showing. */
 @media print {
+  /* First page bleeds to the top edge (so the banner header touches it);
+     every continuation page gets a top margin so text isn't jammed against
+     the paper's top edge. */
   @page {
     size: A4;
-    margin: 0;
+    margin: 16mm 0 0 0;
+  }
+  @page:first {
+    margin-top: 0;
   }
   html,
   body {
@@ -89,9 +95,14 @@ textarea {
   body * {
     visibility: hidden;
   }
+  /* print-color-adjust: exact forces the browser to actually print
+     background colors (banner header, chips, sidebars) instead of
+     dropping them, which is the default in the PDF/print path. */
   .print-root,
   .print-root * {
     visibility: visible;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
   }
   /* Ancestors must not be display:none, or the CV won't print on mobile. */
   .app-shell {
